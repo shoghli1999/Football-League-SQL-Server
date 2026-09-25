@@ -1,7 +1,5 @@
 # Football league database (SQL Server)
 
-[![check](https://github.com/shoghli1999/Football-League-SQL-Server/actions/workflows/check.yml/badge.svg)](https://github.com/shoghli1999/Football-League-SQL-Server/actions/workflows/check.yml)
-
 My project for the Database Design course of my bachelor's at Islamic Azad University, South Tehran Branch (January 2021). The task was to design a database for all Iranian club football competitions, build it in Microsoft SQL Server, fill it with test data and answer the course questions with queries. I drew the ER model in Visio and built 21 tables with their keys and constraints in SQL Server.
 
 ## The database
