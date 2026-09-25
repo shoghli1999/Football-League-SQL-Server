@@ -1,11 +1,9 @@
 -- Queries for the course questions (SQL Server / T-SQL)
 --
--- In 2021 I answered these questions in relational algebra
--- ("shirin shoghli 9625512123.pdf"). In 2026 I wrote them as SQL, one
--- query per answer, keeping the same joins where they made sense.
--- Question numbers follow the assignment. The queries use only CTEs,
--- joins and window functions, so tools/check_sqlite.py can run this same
--- file on SQLite.
+-- One query for each question I answered in relational algebra in
+-- "shirin shoghli 9625512123.pdf"; question numbers follow the assignment.
+-- The queries use only CTEs, joins and window functions, so
+-- tools/check_sqlite.py can run this same file on SQLite.
 --
 -- How the tables connect: a match (game) has no league column, so a
 -- match, goal or event is placed in a league and season (dore) through

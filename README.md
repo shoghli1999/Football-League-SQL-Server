@@ -1,6 +1,12 @@
 # Football league database (SQL Server)
 
-My project for the Database Design course of my bachelor's at Islamic Azad University, South Tehran Branch (January 2021). The task was to design a database for all Iranian club football competitions, build it in Microsoft SQL Server, fill it with test data and answer the course questions with queries. I drew the ER model in Visio and built 21 tables with their keys and constraints in SQL Server.
+My project for the Database Design course of my bachelor's at Islamic Azad University, South Tehran Branch (2021). The task was to design a database for all Iranian club football competitions, build it in Microsoft SQL Server, fill it with test data and answer the course questions with queries. I drew the ER model in Visio and built 21 tables with their keys and constraints in SQL Server.
+
+## ER diagram
+
+![ER diagram of the football league database](images/erd.png)
+
+The diagram is in Persian. The Visio file is `erd.vsdx`, and `erd.pdf` has the same diagram.
 
 ## The database
 
@@ -15,52 +21,41 @@ Table and column names are Persian words in Latin letters.
 
 A few words that come up a lot: dore = season, emtiaz = points or rating, bazikon = player, davar = referee, tamashagar = spectators.
 
-Besides 21 primary keys and 32 foreign keys, I added these rules: players' and staff ages must be between 9 and 99, a team's player count (`teamCount`) is at most 25 and defaults to 25, team and club names are unique, and added time defaults to 0.
+Besides 21 primary keys and 32 foreign keys, the database has these rules: players' and staff ages must be between 9 and 99, a team's player count (`teamCount`) is at most 25 and defaults to 25, team and club names are unique, and added time defaults to 0.
 
 ## Files
 
 | File | What it is |
 |---|---|
-| `erd.pdf`, `erd.vsdx` | ER diagram (Visio, labels in Persian) |
-| `databaseProject.mdf`, `databaseProject_log.ldf`, `databaseProject.zip` | The SQL Server database files from 2021 |
-| `database export.xlsx`, `database export.pdf` | Every table's rows, exported in January 2021 |
-| `shirin shoghli 9625512123.pdf` | My handwritten answers in relational algebra (questions 1 to 7, 9 and 11 to 14) |
-| `sql/scratch_2021/` | SQL I wrote in SSMS while building the database: creating tables, adding constraints and a first try at question 1 |
 | `sql/01_schema.sql` | Creates the 21 tables with all keys and constraints |
-| `sql/02_data.sql` | Inserts the 251 rows from the export |
-| `sql/03_queries.sql` | My relational-algebra answers written as SQL, 12 queries |
+| `sql/02_data.sql` | Inserts the 251 rows |
+| `sql/03_queries.sql` | SQL queries for the course questions (12 queries) |
+| `sql/scratch/` | Scripts from building the database in SSMS: creating tables, adding constraints and a first query |
 | `tools/check_sqlite.py` | Builds the database in SQLite and runs the queries |
+| `erd.vsdx`, `erd.pdf`, `images/erd.png` | ER diagram |
+| `databaseProject.mdf`, `databaseProject_log.ldf`, `databaseProject.zip` | The SQL Server database files |
+| `database export.xlsx`, `database export.pdf` | Every table's rows |
+| `shirin shoghli 9625512123.pdf` | My handwritten answers to the same questions in relational algebra |
 
-## What is from 2021 and what I added in 2026
+## Queries
 
-In 2021 I built the database in SQL Server Management Studio and answered the questions in relational algebra. Only a few of my SQL scripts from then were saved; they are in `sql/scratch_2021/` unchanged.
+`sql/03_queries.sql` answers questions 1 to 7, 9 and 11 to 14 of the assignment with CTEs, joins and window functions (`RANK() OVER`):
 
-In 2026 I added the `sql/` scripts so the project can be read and run without attaching the .mdf file:
+| Question | Query |
+|---|---|
+| 1 | Champion of each season of the Premier League and the Women's League |
+| 2 | Top scorer of each season of each league |
+| 3, 4 | Team and player with the most fouls in each league and season |
+| 5 | Players fouled most and least often in each league |
+| 6 | Match with the most and the fewest spectators per league and season |
+| 7 | Players sent off (second yellow or red card) |
+| 9 | League table: played, won, drawn, lost, goals, goal difference, points |
+| 11 | Goals scored and conceded per team and season, by type of goal |
+| 12 | Matches each team played in each kit |
+| 13 | Busiest main referee per league and season |
+| 14 | Team with the most substitutions per league and season |
 
-- `01_schema.sql` is read from the table definitions stored in `databaseProject.mdf`: the same column types, keys and constraints, and my constraint names where I had given one. Three columns (`game.lebasTeamMizban`, `game.lebasTeamMehman`, `davar.naghsh`) are in the export but not in the .mdf, so the export comes from a slightly later version of the database; they are included here. `teamName` is NVARCHAR instead of VARCHAR so the Persian team names load on any server.
-- `02_data.sql` is the export, row for row. The only edit is a stray line break removed from the end of one team name.
-- `03_queries.sql` turns my relational-algebra answers into SQL with CTEs and window functions (`RANK() OVER`), mostly following the same joins.
-
-## Running it
-
-In SQL Server, create an empty database and run the three files in order, in SSMS or with sqlcmd:
-
-```
-sqlcmd -S localhost -C -Q "CREATE DATABASE footballLeague"
-sqlcmd -S localhost -C -d footballLeague -f 65001 -i sql/01_schema.sql -i sql/02_data.sql -i sql/03_queries.sql
-```
-
-You can also attach `databaseProject.mdf` in SSMS (Databases > Attach). That is the 2021 file, without the three later columns.
-
-Without SQL Server:
-
-```
-python tools/check_sqlite.py
-```
-
-This loads the same scripts into SQLite with foreign keys switched on, checks the row count and every foreign key, and prints the result of each query. GitHub Actions runs it on every push. The queries only use SQL that SQL Server and SQLite share.
-
-Example, question 7 (players sent off with a second yellow or a red card):
+Example, question 7:
 
 ```
 tarikh      gameId  bazikonFName  bazikonLName  rooydadName
@@ -73,14 +68,33 @@ tarikh      gameId  bazikonFName  bazikonLName  rooydadName
 1397-07-07  63      ali           dayi          kartZard2
 ```
 
-## Limits of the data and the design
+## Running it
+
+In SQL Server, create an empty database and run the three files in order, in SSMS or with sqlcmd:
+
+```
+sqlcmd -S localhost -C -Q "CREATE DATABASE footballLeague"
+sqlcmd -S localhost -C -d footballLeague -f 65001 -i sql/01_schema.sql -i sql/02_data.sql -i sql/03_queries.sql
+```
+
+You can also attach `databaseProject.mdf` in SSMS (Databases > Attach). It is an earlier save, so it doesn't have the columns `game.lebasTeamMizban`, `game.lebasTeamMehman` and `davar.naghsh`.
+
+Without SQL Server:
+
+```
+python tools/check_sqlite.py
+```
+
+This loads the same scripts into SQLite with foreign keys switched on, checks the row count and every foreign key, and prints the result of each query. The queries only use SQL that SQL Server and SQLite share.
+
+## Notes on the data and the design
 
 - The rows are test data. Team names are real, but the people, matches and numbers are made up, so some figures don't add up (one team has 3 wins from 2 games).
 - Five tables are empty: fouls, penalties, line-ups and the two contract tables. Questions 3 to 5 need fouls, so they return no rows, and question 14 finds no substitutions for the teams that have a league row.
-- `game` has no league or season column, so the queries place a match in a league through the home team's row in `league_team`. Adding `leagueId` and `dore` to `game` is the first thing I would change now.
+- `game` has no league or season column, so the queries place a match in a league through the home team's row in `league_team`. Adding `leagueId` and `dore` to `game` would make this direct.
 - `davar` has one row per referee and match. A referee table plus a separate assignment table would avoid repeating names.
 - Dates are Solar Hijri dates stored in DATE columns (for example 1394-03-03). They sort correctly, but date arithmetic on them gives wrong results.
 
 ## Tech
 
-SQL Server (T-SQL) · SSMS · Microsoft Visio · SQLite · Python · GitHub Actions
+SQL Server (T-SQL) · SSMS · Microsoft Visio · SQLite · Python

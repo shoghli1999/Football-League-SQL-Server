@@ -1,8 +1,6 @@
--- Rows of every table, taken from "database export.xlsx" (the export I made
--- of my database in January 2021). Run after 01_schema.sql.
--- Tables with no rows in the export: penaltiGereftan, qarardad_bazikon, qarardad_kadrefani, sabteKhata, tarkibavaliye.
--- Dates are Solar Hijri (e.g. 1394-03-03) typed into DATE columns, as in the original.
--- The only change: a stray line break at the end of one team name (teamId 6) is removed.
+-- Rows of every table, from "database export.xlsx". Run after 01_schema.sql.
+-- Tables with no rows: penaltiGereftan, qarardad_bazikon, qarardad_kadrefani, sabteKhata, tarkibavaliye.
+-- Dates are Solar Hijri (for example 1394-03-03) stored in DATE columns.
 
 INSERT INTO league (leagueId, leagueName) VALUES
     (1, 'bartar'),
