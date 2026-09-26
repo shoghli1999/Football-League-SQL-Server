@@ -1,0 +1,2 @@
+# Show the T-SQL scripts in GitHub's language bar (plain .sql files are not counted)
+*.sql linguist-language=TSQL

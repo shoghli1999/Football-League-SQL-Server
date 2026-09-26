@@ -35,7 +35,7 @@ Besides 21 primary keys and 32 foreign keys, the database has these rules: playe
 | `erd.vsdx`, `erd.pdf`, `images/erd.png` | ER diagram |
 | `databaseProject.mdf`, `databaseProject_log.ldf`, `databaseProject.zip` | The SQL Server database files |
 | `database export.xlsx`, `database export.pdf` | Every table's rows |
-| `shirin shoghli 9625512123.pdf` | My handwritten answers to the same questions in relational algebra |
+| `relational-algebra-answers.pdf` | My handwritten answers to the same questions in relational algebra |
 
 ## Queries
 
